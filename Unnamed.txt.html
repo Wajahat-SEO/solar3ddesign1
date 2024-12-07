@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Unnamed</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <meta name="generator" content="FreeCAD 0.21.2">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                background: #ffffff; /* Old browsers */
+                background: -moz-linear-gradient(top, #e3e9fc 0%, #ffffff 70%, #e2dab3 100%); /* FF3.6-15 */
+                background: -webkit-linear-gradient(top, #e3e9fc 0%,#ffffff 70%,#e2dab3 100%); /* Chrome10-25, Safari5.1-6 */
+                background: linear-gradient(to bottom, #e3e9fc 0%,#ffffff 70%,#e2dab3 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+                width: 100vw;
+                height: 100vh;
+            }
+            canvas { display: block; }
+            #mainCanvas {
+                width: 100%;
+                height: 100%;
+            }
+            #arrowCanvas  {
+                position: absolute;
+                left: 0px;
+                bottom: 0px;
+                width: 150px;
+                height: 150px;
+                z-index: 100;
+            }
+            select { width: 170px; }
+        </style>
+    </head>
+    <body>
+        <canvas id="mainCanvas"></canvas>
+        <canvas id="arrowCanvas"></canvas>
+        <script type="module">
+            // Direct from mrdoob: https://www.jsdelivr.com/package/npm/three
+            import * as THREE from            'https://cdn.jsdelivr.net/npm/three@0.125.0/build/three.module.js';
+            import { OrbitControls } from     'https://cdn.jsdelivr.net/npm/three@0.125.0/examples/jsm/controls/OrbitControls.js';
+            import { GUI } from               'https://cdn.jsdelivr.net/npm/three@0.125.0/examples/jsm/libs/dat.gui.module.js';
+            import { Line2 } from             'https://cdn.jsdelivr.net/npm/three@0.125.0/examples/jsm/lines/Line2.js';
+            import { LineMaterial } from      'https://cdn.jsdelivr.net/npm/three@0.125.0/examples/jsm/lines/LineMaterial.js';
+            import { LineGeometry } from      'https://cdn.jsdelivr.net/npm/three@0.125.0/examples/jsm/lines/LineGeometry.js';
+            import { EdgeSplitModifier } from 'https://cdn.jsdelivr.net/npm/three@0.125.0/examples/jsm/modifiers/EdgeSplitModifier.js';
+
+            const data = {"camera":{"type":"Perspective","focalDistance":9103.595703125,"position_x":-1255.583251953125,"position_y":-1794.2080078125,"position_z":3221.4833984375},"file":{},"objects":[{"name":"Mesh006","color":"#cccccc","opacity":1.0,"verts":"1abcadeadcabefbefbcfdefdc","facets":"1abcbadeafaedbegebdbhchbgehghef","wires":[],"faceColors":[],"facesToFacets":[],"floats":"942Pt7bTlSV;Vx1b1KSH$76SGSTxNl$Ai@ow"},{"name":"Mesh004","color":"#cccccc","opacity":1.0,"verts":"1abcadcebcedc","facets":"1abcdcb","wires":[],"faceColors":[],"facesToFacets":[],"floats":"942PA2bTS>m]Vx1bj~JHpy6RF#R+0T0$"},{"name":"Mesh007","color":"#cccccc","opacity":1.0,"verts":"1abcabdaecaedfbcfbdfecfed","facets":"1abcdcbaebfbeacegecgchdhcfehghe","wires":[],"faceColors":[],"facesToFacets":[],"floats":"942Pt7bTlSV;PXrddgGM1v0QR3h5?,{Ni@ow"},{"name":"Mesh005","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh003","color":"#cccccc","opacity":1.0,"verts":"1abcdecdbcaec","facets":"1abcbad","wires":[],"faceColors":[],"facesToFacets":[],"floats":"942P?1bTKJkVVx1b7cEHp@owK95#3Za4"},{"name":"Mesh001","color":"#cccccc","opacity":1.0,"verts":"1abcabdaecaedfbcfbdfecfed","facets":"1abcdcbaebfbeacegecgchdhcfehghe","wires":[],"faceColors":[],"facesToFacets":[],"floats":"942PA2bTS>m]PXrddgGMvv0QeT}Xuuiui@ow"},{"name":"Mesh","color":"#cccccc","opacity":1.0,"verts":"1abcadeadcabefbefbcfdefdc","facets":"1abcbadeafaedbegebdbhchbgehghef","wires":[],"faceColors":[],"facesToFacets":[],"floats":"942PA2bTS>m]Vx1bj~JHqy6RGSTxNl$Ai@ow"},{"name":"Mesh002","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh011","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh020","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh009","color":"#cccccc","opacity":1.0,"verts":"1abcdecdbcaec","facets":"1abcbad","wires":[],"faceColors":[],"facesToFacets":[],"floats":"942PF6bTDcTOVx1b7cEHs@ow*Q`EYwc5"},{"name":"Mesh010","color":"#cccccc","opacity":1.0,"verts":"1abcadcebcedc","facets":"1abcdcb","wires":[],"faceColors":[],"facesToFacets":[],"floats":"942Pt7bTlSV;Vx1b1KSH#76SF#R+0T0$"},{"name":"Mesh013","color":"#cccccc","opacity":1.0,"verts":"1abcabdaecaedfbcfbdfecfed","facets":"1abcdcbaebfbeacegecgchdhcfehghe","wires":[],"faceColors":[],"facesToFacets":[],"floats":"GS1!}X#QS>m]PXrddgGMvv0QeT}XYJtu=Yl="},{"name":"Mesh012","color":"#cccccc","opacity":1.0,"verts":"1abcadeadcabefbefbcfdefdc","facets":"1abcbadeafaedbegebdbhchbgehghef","wires":[],"faceColors":[],"facesToFacets":[],"floats":"GS1!}X#QS>m]Vx1bj~JHqy6RGSTx*A=A=Yl="},{"name":"Mesh017","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh014","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh015","color":"#cccccc","opacity":1.0,"verts":"1abcdecdbcaec","facets":"1abcbad","wires":[],"faceColors":[],"facesToFacets":[],"floats":"GS1!WX#QKJkVVx1b~rPH_Yl=K95#3Za4"},{"name":"Mesh016","color":"#cccccc","opacity":1.0,"verts":"1abcadcebcedc","facets":"1abcdcb","wires":[],"faceColors":[],"facesToFacets":[],"floats":"GS1!}X#QS>m]Vx1bj~JHsy6RQ~..&W{Z"},{"name":"Mesh008","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh022","color":"#cccccc","opacity":1.0,"verts":"1abcadcebcedc","facets":"1abcdcb","wires":[],"faceColors":[],"facesToFacets":[],"floats":"GS1!ST#QlvXuVx1bJ&AHHh#QQ~..&W{Z"},{"name":"Mesh025","color":"#cccccc","opacity":1.0,"verts":"1abcabdaecaedfbcfbdfecfed","facets":"1abcdcbaebfbeacegecgchdhcfehghe","wires":[],"faceColors":[],"facesToFacets":[],"floats":"GS1!]3#QlSV;PXrddgGM1v0QR3h5rjhO=Yl="},{"name":"Mesh028","color":"#cccccc","opacity":1.0,"verts":"1abcadcebcedc","facets":"1abcdcb","wires":[],"faceColors":[],"facesToFacets":[],"floats":"GS1!]3#QlSV;Vx1b1KSH&76SQ~..&W{Z"},{"name":"Mesh027","color":"#cccccc","opacity":1.0,"verts":"1abcdecdbcaec","facets":"1abcbad","wires":[],"faceColors":[],"facesToFacets":[],"floats":"GS1!c3#QDcTOVx1b~rPH{Yl=*Q`EYwc5"},{"name":"Mesh021","color":"#cccccc","opacity":1.0,"verts":"1abcdecdbcaec","facets":"1abcbad","wires":[],"faceColors":[],"facesToFacets":[],"floats":"GS1!4S#Q+-%2Vx1b~rPH]Yl=~LpEK?T_"},{"name":"Mesh030","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghfijaklfklaghaijamnfmnfopfqraopaqr","facets":"1abcdcbefdcdfbgdhdgibjajbkalclajfieifmehdhefnclcniobgbojapkpaieomoepnjfjn","wires":[],"faceColors":[],"facesToFacets":[],"floats":"P9mK,w%RnbgIJb)cLZ*.;.$JH2CHX9_%MZ#SEU~Z(6mj[YXK}v_Z3_%2oa;c>uGApI$JNBq2mYU%[Jd*GrU3vEimVq1:C:GE:~[HGW1fb|y>5l^TyL%N"},{"name":"Mesh026","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh024","color":"#cccccc","opacity":1.0,"verts":"1abcadeadcabefbefbcfdefdc","facets":"1abcbadeafaedbegebdbhchbgehghef","wires":[],"faceColors":[],"facesToFacets":[],"floats":"GS1!]3#QlSV;Vx1b1KSH$76SGSTx*A=A=Yl="},{"name":"Mesh029","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh031","color":"#cccccc","opacity":1.0,"verts":"1abcdefdbcaefdghdijakldklaghaijdmnamndopdqraopaqr","facets":"1abcbadecbcefgchcgaaidiajdkbkdlejfjeifhchfmnbkbneoagaojdplpdifomofjnieinp","wires":[],"faceColors":[],"facesToFacets":[],"floats":"P9mK,w%R[2aInf)cOpy_je&$C|p;E.F>>}EJN@uM>h,jfcXK??M.^S92_d;c5j?xpI$JNBq2mYU%[Jd*GrU3vEimVq1:C:GE:~[HGW1fb|y>5l^TyL%N"},{"name":"Mesh032","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh023","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh039","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh044","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghfijaklfklaghaijamnfmnfopfqraopaqr","facets":"1abcdcbefdcdfbgdhdgibjajbkalclajfieifmehdhefnclcniobgbojapkpaieomoepnjfjn","wires":[],"faceColors":[],"facesToFacets":[],"floats":"Yt9RfZrSnbgIJb)cLZ*.;.$JH2CHY9_%~,S5g1i7(6mj[YXK}v_Z3_%2oa;c>uGApI$JNBq2mYU%[Jd*GrU3vEimVq1:C:GE:~[HGW1fb|y>5l^TyL%N"},{"name":"Mesh040","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh034","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijklmklmnopbcjnopfgphijqrjstmstpdemqr","facets":"1abcdcbceaefaghfafheciicgcjghgjjckdkclmdmndokndnkdbllbpbopnpohoabaoohkjkh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"-SzRbB%R~f{&hE:c;]~*r4u#3Ke;#(M1(H~%)U_v-W2ldQd7QQ3y8rg(2=Cdz={!g,@S&u9[3M[ZyhPN3,}Zu?rmf22JYnP5wLIO-Q1fsz/W4B=*C|p;P>,Rd84Jj=hG"},{"name":"Mesh043","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh036","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh038","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghaghaijfij","facets":"1abcdcbbcdcbadebfbeebfbedabgfgbbgfgbacahghaahghacchdedhhdedhcghfefhhfefhg","wires":[],"faceColors":[],"facesToFacets":[],"floats":")_oR~A%RuXGVpp;c9Z{.pI$JNBq2jYU%yhPN1,}Zbeakfj>J_gEw).BV,s;cstF_"},{"name":"Mesh037","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh041","color":"#cccccc","opacity":1.0,"verts":"1abcdbcaefdef","facets":"1abcdcb","wires":[],"faceColors":[],"facesToFacets":[],"floats":")_oR~A%R3_%2oa;cGuGA/JY_C|p;E.F>>}EJ=]rM"},{"name":"Mesh035","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijdeklmjhinlmnopkopjfgjbckqrkstnqrnst","facets":"1abcbadefgfebfbhhbigjdjgfdjidibbkckbelmnmlamaooackncnklcnpcpoldadlggkekgl","wires":[],"faceColors":[],"facesToFacets":[],"floats":"-SzRbB%R[JBV!w;c`8g[bBi,3Y!A3C8$Uu^%{.60hwnl)Y#:B9rQkVEBxJ*ce+e#/JY_3|p;sMT:ibHG9KFT{.Ui(~1:cJ+S!Ay]-Q1fsz/W4B=*C|p;P>,Rd84Jj=hG"},{"name":"Mesh054","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh033","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh042","color":"#cccccc","opacity":1.0,"verts":"1abcdefaefdbc","facets":"1abcbad","wires":[],"faceColors":[],"facesToFacets":[],"floats":"P9mK~A%R3_%2oa;cUuGAje&$C|p;E.F>>}EJ=]rM"},{"name":"Mesh045","color":"#cccccc","opacity":1.0,"verts":"1abcdefdbcaefdghdijakldklaghaijdmnamndopdqraopaqr","facets":"1abcbadecbcefgchcgaaidiajdkbkdlejfjeifhchfmnbkbneoagaojdplpdifomofjnieinp","wires":[],"faceColors":[],"facesToFacets":[],"floats":"Yt9RfZrS[2aInf)c4py_>z]TjfY&E.F>>}EJN@uM>h,jfcXK??M.^S92_d;c5j?xpI$JNBq2mYU%[Jd*GrU3vEimVq1:C:GE:~[HGW1fb|y>5l^TyL%N"},{"name":"Mesh049","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijdeklmjhinlmnopkopjfgjbckqrkstnqrnst","facets":"1abcbadefgfebfbhhbigjdjgfdjidibbkckbelmnmlamaooackncnklcnpcpoldadlggkekgl","wires":[],"faceColors":[],"facesToFacets":[],"floats":"]d;Yn4rS[JBV!w;c`8g[bBi,3Y!A3C8$Uu^%{.60hwnl)Y#:B9rQkVEB|TFd1h`!Z6$#JfY&sMT:ibHGM$FTo:cj(~1:cJ+S!Ay]-Q1fsz/W4B=*C|p;P>,Rd84Jj=hG"},{"name":"Mesh047","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh051","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh046","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh052","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghaghaijfij","facets":"1abcdcbbcdcbadebfbeebfbedabgfgbbgfgbacahghaahghacchdedhhdedhcghfefhhfefhg","wires":[],"faceColors":[],"facesToFacets":[],"floats":"?P!Yk4rSuXGVpp;c9Z{.pI$JNBq2kYU%/NwZC`h7beakfj>J_gEw).BV,s;cstF_"},{"name":"Mesh053","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh048","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijklmklmnopbcjnopfgphijqrjstmstpdemqr","facets":"1abcdcbceaefaghfafheciicgcjghgjjckdkclmdmndokndnkdbllbpbopnpohoabaoohkjkh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"]d;Yn4rS~f{&hE:c;]~*r4u#3Ke;#(M1(H~%)U_v-W2ldQd7QQ3y8rg(A|]dti`!g,@S&u9[4M[Z/NwZE`h7u?rmf22J!pP5+&82-Q1fsz/W4B=*C|p;P>,Rd84Jj=hG"},{"name":"Mesh050","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh055","color":"#cccccc","opacity":1.0,"verts":"1abcdbcaefdef","facets":"1abcdcb","wires":[],"faceColors":[],"facesToFacets":[],"floats":"?P!Yk4rS3_%2oa;cVuGAZ6$#jfY&E.F>>}EJ=]rM"},{"name":"Mesh056","color":"#cccccc","opacity":1.0,"verts":"1abcdefaefdbc","facets":"1abcbad","wires":[],"faceColors":[],"facesToFacets":[],"floats":"Yt9Rk4rS3_%2oa;c0uGA>z]TjfY&E.F>>}EJ=]rM"},{"name":"Mesh057","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh059","color":"#cccccc","opacity":1.0,"verts":"1abcdefdbcaefdghdijakldklaghaijdmnamndopdqraopaqr","facets":"1abcbadecbcefgchcgaaidiajdkbkdlejfjeifhchfmnbkbneoagaojdplpdifomofjnieinp","wires":[],"faceColors":[],"facesToFacets":[],"floats":")B%7bwtT[2aInf)c.py_[B{=jfY&E.F>>}EJN@uM>h,jfcXK??M.^S92_d;c5j?xpI$JNBq2mYU%[Jd*GrU3vEimVq1:C:GE:~[HGW1fb|y>5l^TyL%N"},{"name":"Mesh063","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijdeklmjhinlmnopkopjfgjbckqrkstnqrnst","facets":"1abcbadefgfebfbhhbigjdjgfdjidibbkckbelmnmlamaooackncnklcnpcpoldadlggkekgl","wires":[],"faceColors":[],"facesToFacets":[],"floats":"D{@%f5#Q[JBV!w;c`8g[bBi,3Y!A3C8$Uu^%{.60hwnl)Y#:B9rQkVEBl.SeA+@!fldAJfY&sMT:ibHGWDGT@Uek(~1:cJ+S!Ay]-Q1fsz/W4B=*C|p;P>,Rd84Jj=hG"},{"name":"Mesh058","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghfijaklfklaghaijamnfmnfopfqraopaqr","facets":"1abcdcbefdcdfbgdhdgibjajbkalclajfieifmehdhefnclcniobgbojapkpaieomoepnjfjn","wires":[],"faceColors":[],"facesToFacets":[],"floats":")B%7bwtTnbgIJb)cLZ*.;.$JH2CH19_%!$9@SIE-(6mj[YXK}v_Z3_%2oa;c>uGApI$JNBq2mYU%[Jd*GrU3vEimVq1:C:GE:~[HGW1fb|y>5l^TyL%N"},{"name":"Mesh071","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh073","color":"#cccccc","opacity":1.0,"verts":"1abcdefdbcaefdghdijakldklaghaijdmnamndopdqraopaqr","facets":"1abcbadecbcefgchcgaaidiajdkbkdlejfjeifhchfmnbkbneoagaojdplpdifomofjnieinp","wires":[],"faceColors":[],"facesToFacets":[],"floats":"8)rZWK#S[2aInf)c+py_ce1CjfY&E.F>>}EJN@uM>h,jfcXK??M.^S92_d;c5j?xpI$JNBq2mYU%[Jd*GrU3vEimVq1:C:GE:~[HGW1fb|y>5l^TyL%N"},{"name":"Mesh060","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh061","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh062","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijklmklmnopbcjnopfgphijqrjstmstpdemqr","facets":"1abcdcbceaefaghfafheciicgcjghgjjckdkclmdmndokndnkdbllbpbopnpohoabaoohkjkh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"D{@%f5#Q~f{&hE:c;]~*r4u#3Ke;#(M1(H~%)U_v-W2ldQd7QQ3y8rg(iOef^mg#g,@S&u9[6M[Z.o=/)-D-u?rmf22J,tP5]Ju]-Q1fsz/W4B=*C|p;P>,Rd84Jj=hG"},{"name":"Mesh064","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh065","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh066","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghaghaijfij","facets":"1abcdcbbcdcbadebfbeebfbedabgfgbbgfgbacahghaahghacchdedhhdedhcghfefhhfefhg","wires":[],"faceColors":[],"facesToFacets":[],"floats":"x-6%gAtTuXGVpp;c9Z{.pI$JNBq2mYU%.o=/&-D-beakfj>J_gEw).BV,s;cstF_"},{"name":"Mesh067","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh069","color":"#cccccc","opacity":1.0,"verts":"1abcdbcaefdef","facets":"1abcdcb","wires":[],"faceColors":[],"facesToFacets":[],"floats":"x-6%gAtT3_%2oa;c?uGAfldAjfY&E.F>>}EJ=]rM"},{"name":"Mesh068","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh070","color":"#cccccc","opacity":1.0,"verts":"1abcdefaefdbc","facets":"1abcbad","wires":[],"faceColors":[],"facesToFacets":[],"floats":")B%7gAtT3_%2oa;cavGA[B{=jfY&E.F>>}EJ=]rM"},{"name":"Mesh072","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghfijaklfklaghaijamnfmnfopfqraopaqr","facets":"1abcdcbefdcdfbgdhdgibjajbkalclajfieifmehdhefnclcniobgbojapkpaieomoepnjfjn","wires":[],"faceColors":[],"facesToFacets":[],"floats":"8)rZWK#SnbgIJb)cLZ*.;.$JH2CHZ9_%Z@K)zR$$(6mj[YXK}v_Z3_%2oa;c>uGApI$JNBq2mYU%[Jd*GrU3vEimVq1:C:GE:~[HGW1fb|y>5l^TyL%N"},{"name":"Mesh085","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh078","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh080","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghaghaijfij","facets":"1abcdcbbcdcbadebfbeebfbedabgfgbbgfgbacahghaahghacchdedhhdedhcghfefhhfefhg","wires":[],"faceColors":[],"facesToFacets":[],"floats":"r/u72O#SuXGVpp;c9Z{.pI$JNBq2lYU%I:d#V]#$beakfj>J_gEw).BV,s;cstF_"},{"name":"Mesh077","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijdeklmjhinlmnopkopjfgjbckqrkstnqrnst","facets":"1abcbadefgfebfbhhbigjdjgfdjidibbkckbelmnmlamaooackncnklcnpcpoldadlggkekgl","wires":[],"faceColors":[],"facesToFacets":[],"floats":"uKF75O#S[JBV!w;c`8g[bBi,3Y!A3C8$Uu^%{.60hwnl)Y#:B9rQkVEB85,di4c#C[@SJfY&sMT:ibHGtcGTU8Wj(~1:cJ+S!Ay]-Q1fsz/W4B=*C|p;P>,Rd84Jj=hG"},{"name":"Mesh081","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh082","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh083","color":"#cccccc","opacity":1.0,"verts":"1abcdbcaefdef","facets":"1abcdcb","wires":[],"faceColors":[],"facesToFacets":[],"floats":"r/u72O#S3_%2oa;c!uGAC[@SjfY&E.F>>}EJ=]rM"},{"name":"Mesh075","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh076","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijklmklmnopbcjnopfgphijqrjstmstpdemqr","facets":"1abcdcbceaefaghfafheciicgcjghgjjckdkclmdmndokndnkdbllbpbopnpohoabaoohkjkh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"uKF75O#S~f{&hE:c;]~*r4u#3Ke;#(M1(H~%)U_v-W2ldQd7QQ3y8rg(5mReY4c#g,@S&u9[5M[ZI:d#X]#$u?rmf22J/rP5!g{&-Q1fsz/W4B=*C|p;P>,Rd84Jj=hG"},{"name":"Mesh079","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh074","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh084","color":"#cccccc","opacity":1.0,"verts":"1abcdefaefdbc","facets":"1abcbad","wires":[],"faceColors":[],"facesToFacets":[],"floats":"8)rZ2O#S3_%2oa;c>uGAce1CjfY&E.F>>}EJ=]rM"},{"name":"Mesh087","color":"#cccccc","opacity":1.0,"verts":"1abcdefdbcaefdghdijakldklaghaijdmnamndopdqraopaqr","facets":"1abcbadecbcefgchcgaaidiajdkbkdlejfjeifhchfmnbkbneoagaojdplpdifomofjnieinp","wires":[],"faceColors":[],"facesToFacets":[],"floats":"P9mK4s%RH~:;s^0cAw}{je&$(@h;Ogux+-+x0%y)p/_kfK+Jrhd*C-xB=)(crasD#(b1jO8[X9_%*v,RvUE:qplm/*K6j0W-X5I9*RLeyJ/:h%D*!t}1"},{"name":"Mesh095","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh097","color":"#cccccc","opacity":1.0,"verts":"1abcdbcaefdef","facets":"1abcdcb","wires":[],"faceColors":[],"facesToFacets":[],"floats":")_oR0w%RbtDBh%(caW-F/JY_(@h;Ogux+-+xcIw)"},{"name":"Mesh093","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh090","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijklmklmnopbcjnopfgphijqrjstmstpdemqr","facets":"1abcdcbceaefaghfafheciicgcjghgjjckdkclmdmndokndnkdbllbpbopnpohoabaoohkjkh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"-SzR$w%RjHWOmq&c?:A=g5W^fae;DU=16eNQB0PyxD5lpZ}Qs*8%NaFB2=Cd{/{!6:#!F?d;dXz1yhPN8B}ZG!rn/n/I)]VNwLIO}NLeyRRTuMVz}ou2r#^5WeqyP]**"},{"name":"Mesh088","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh103","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh089","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh091","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijdeklmjhinlmnopkopjfgjbckqrkstnqrnst","facets":"1abcbadefgfebfbhhbigjdjgfdjidibbkckbelmnmlamaooackncnklcnpcpoldadlggkekgl","wires":[],"faceColors":[],"facesToFacets":[],"floats":"-SzR$w%RfElB4}(ce1I.:zrJ08-87Sf%:asQ{L|@8mqli^V6KgL,WF/2xJ*ce+e#/JY_D[h;.yR{cFEwTBX,{.UihDL6m-`{8iXO}NLeyRRTuMVz}ou2r#^5WeqyP]**"},{"name":"Mesh099","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh092","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh086","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghfijaklfklaghaijamnfmnfopfqraopaqr","facets":"1abcdcbefdcdfbgdhdgibjajbkalclajfieifmehdhefnclcniobgbojapkpaieomoepnjfjn","wires":[],"faceColors":[],"facesToFacets":[],"floats":"P9mK4s%Rgdj]P?0ca./xFCc13%-8PAs&MZ#SJ]}ZgImk[.+J5nBJbtDBh%(coW-F#(b1jO8[X9_%*v,RvUE:qplm/*K6j0W-X5I9*RLeyJ/:h%D*!t}1"},{"name":"Mesh094","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghaghaijfij","facets":"1abcdcbbcdcbadebfbeebfbedabgfgbbgfgbacahghaahghacchdedhhdedhcghfefhhfefhg","wires":[],"faceColors":[],"facesToFacets":[],"floats":")_oR0w%RjSqBQ/(c]5gy#(b1jO8[W9_%yhPN3B}Zn[`kb^|I1y1-e]lBu@(c&SZv"},{"name":"Mesh096","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh098","color":"#cccccc","opacity":1.0,"verts":"1abcdefaefdbc","facets":"1abcbad","wires":[],"faceColors":[],"facesToFacets":[],"floats":"P9mK0w%RbtDBh%(coW-Fje&$(@h;Ogux+-+xcIw)"},{"name":"Mesh101","color":"#cccccc","opacity":1.0,"verts":"1abcdefdbcaefdghdijakldklaghaijdmnamndopdqraopaqr","facets":"1abcbadecbcefgchcgaaidiajdkbkdlejfjeifhchfmnbkbneoagaojdplpdifomofjnieinp","wires":[],"faceColors":[],"facesToFacets":[],"floats":")B%7#rtTH~:;s^0c+w}{[B{=W}P&Ogux+-+x0%y)p/_kfK+Jrhd*C-xB=)(crasD#(b1jO8[X9_%*v,RvUE:qplm/*K6j0W-X5I9*RLeyJ/:h%D*!t}1"},{"name":"Mesh100","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghfijaklfklaghaijamnfmnfopfqraopaqr","facets":"1abcdcbefdcdfbgdhdgibjajbkalclajfieifmehdhefnclcniobgbojapkpaieomoepnjfjn","wires":[],"faceColors":[],"facesToFacets":[],"floats":")B%7#rtTgdj]P?0ca./xFCc13%-8SAs&!$9@X)D-gImk[.+J5nBJbtDBh%(coW-F#(b1jO8[X9_%*v,RvUE:qplm/*K6j0W-X5I9*RLeyJ/:h%D*!t}1"},{"name":"Mesh102","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh104","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijklmklmnopbcjnopfgphijqrjstmstpdemqr","facets":"1abcdcbceaefaghfafheciicgcjghgjjckdkclmdmndokndnkdbllbpbopnpohoabaoohkjkh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"D{@%)Z#QjHWOmq&c?:A=g5W^fae;DU=16eNQB0PyxD5lpZ}Qs*8%NaFBiOefZmg#6:#!F?d;gXz1.o=/;pD-G!rn/n/Il}VN]Ju]}NLeyRRTuMVz}ou2r#^5WeqyP]**"},{"name":"Mesh105","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijdeklmjhinlmnopkopjfgjbckqrkstnqrnst","facets":"1abcbadefgfebfbhhbigjdjgfdjidibbkckbelmnmlamaooackncnklcnpcpoldadlggkekgl","wires":[],"faceColors":[],"facesToFacets":[],"floats":"D{@%)Z#QfElB4}(ce1I.:zrJ08-87Sf%:asQ{L|@8mqli^V6KgL,WF/2l.SeA+@!fldAk~P&.yR{cFEwHuY,@UekhDL6m-`{8iXO}NLeyRRTuMVz}ou2r#^5WeqyP]**"},{"name":"Mesh106","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh107","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh119","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijdeklmjhinlmnopkopjfgjbckqrkstnqrnst","facets":"1abcbadefgfebfbhhbigjdjgfdjidibbkckbelmnmlamaooackncnklcnpcpoldadlggkekgl","wires":[],"faceColors":[],"facesToFacets":[],"floats":"uKF7DK#SfElB4}(ce1I.:zrJ08-87Sf%:asQ{L|@8mqli^V6KgL,WF/285,di4c#C[@Sk~P&.yR{cFEwe,X,U8WjhDL6m-`{8iXO}NLeyRRTuMVz}ou2r#^5WeqyP]**"},{"name":"Mesh112","color":"#cccccc","opacity":1.0,"verts":"1abcdefaefdbc","facets":"1abcbad","wires":[],"faceColors":[],"facesToFacets":[],"floats":")B%7*vtTbtDBh%(c7W-F[B{=W}P&Ogux+-+xcIw)"},{"name":"Mesh114","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghfijaklfklaghaijamnfmnfopfqraopaqr","facets":"1abcdcbefdcdfbgdhdgibjajbkalclajfieifmehdhefnclcniobgbojapkpaieomoepnjfjn","wires":[],"faceColors":[],"facesToFacets":[],"floats":"8)rZuG#Sgdj]P?0ca./xFCc13%-8RAs&Z@K)E?#$gImk[.+J5nBJbtDBh%(coW-F#(b1jO8[X9_%*v,RvUE:qplm/*K6j0W-X5I9*RLeyJ/:h%D*!t}1"},{"name":"Mesh115","color":"#cccccc","opacity":1.0,"verts":"1abcdefdbcaefdghdijakldklaghaijdmnamndopdqraopaqr","facets":"1abcbadecbcefgchcgaaidiajdkbkdlejfjeifhchfmnbkbneoagaojdplpdifomofjnieinp","wires":[],"faceColors":[],"facesToFacets":[],"floats":"8)rZuG#SH~:;s^0c5w}{ce1CW}P&Ogux+-+x0%y)p/_kfK+Jrhd*C-xB=)(crasD#(b1jO8[X9_%*v,RvUE:qplm/*K6j0W-X5I9*RLeyJ/:h%D*!t}1"},{"name":"Mesh116","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh117","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh111","color":"#cccccc","opacity":1.0,"verts":"1abcdbcaefdef","facets":"1abcdcb","wires":[],"faceColors":[],"facesToFacets":[],"floats":"x-6%*vtTbtDBh%(cTW-FfldAW}P&Ogux+-+xcIw)"},{"name":"Mesh109","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh118","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijklmklmnopbcjnopfgphijqrjstmstpdemqr","facets":"1abcdcbceaefaghfafheciicgcjghgjjckdkclmdmndokndnkdbllbpbopnpohoabaoohkjkh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"uKF7DK#SjHWOmq&c?:A=g5W^fae;DU=16eNQB0PyxD5lpZ}Qs*8%NaFB5mReu4c#6:#!F?d;fXz1I:d#3y#$G!rn/n/Ic{VN!g{&}NLeyRRTuMVz}ou2r#^5WeqyP]**"},{"name":"Mesh108","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghaghaijfij","facets":"1abcdcbbcdcbadebfbeebfbedabgfgbbgfgbacahghaahghacchdedhhdedhcghfefhhfefhg","wires":[],"faceColors":[],"facesToFacets":[],"floats":"x-6%*vtTjSqBQ/(c]5gy#(b1jO8[Z9_%.o=/)pD-n[`kb^|I1y1-e]lBu@(c&SZv"},{"name":"Mesh110","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh113","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh126","color":"#cccccc","opacity":1.0,"verts":"1abcdefaefdbc","facets":"1abcbad","wires":[],"faceColors":[],"facesToFacets":[],"floats":"8)rZAK#SbtDBh%(cSW-Fce1CW}P&Ogux+-+xcIw)"},{"name":"Mesh131","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh121","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh134","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh128","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghfijaklfklaghaijamnfmnfopfqraopaqr","facets":"1abcdcbefdcdfbgdhdgibjajbkalclajfieifmehdhefnclcniobgbojapkpaieomoepnjfjn","wires":[],"faceColors":[],"facesToFacets":[],"floats":"P9mKKo%RjK|2ZyTc4oT6-8wLTdfuZzELMZ#S1z}ZU+Uj>Y_I~GtRcN4;/50cGSP%sjwLLGK&vn.K@9:w;cPZ5X]j7*WQfD[w},%OC5ydSB(4`NZC6#?t"},{"name":"Mesh120","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh123","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh127","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh129","color":"#cccccc","opacity":1.0,"verts":"1abcdefdbcaefdghdijakldklaghaijdmnamndopdqraopaqr","facets":"1abcbadecbcefgchcgaaidiajdkbkdlejfjeifhchfmnbkbneoagaojdplpdifomofjnieinp","wires":[],"faceColors":[],"facesToFacets":[],"floats":"P9mKKo%RZ~]2DCTc$da4je&$S|`:+hJ^du$@QtN?j3qk-s^Id[C>^/Y;t&0c}A_!sjwLLGK&vn.K@9:w;cPZ5X]j7*WQfD[w},%OC5ydSB(4`NZC6#?t"},{"name":"Mesh124","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh122","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghaghaijfij","facets":"1abcdcbbcdcbadebfbeebfbedabgfgbbgfgbacahghaahghacchdedhhdedhcghfefhhfefhg","wires":[],"faceColors":[],"facesToFacets":[],"floats":"r/u7AK#SjSqBQ/(c]5gy#(b1jO8[Y9_%I:d#Xy#$n[`kb^|I1y1-e]lBu@(c&SZv"},{"name":"Mesh125","color":"#cccccc","opacity":1.0,"verts":"1abcdbcaefdef","facets":"1abcdcb","wires":[],"faceColors":[],"facesToFacets":[],"floats":"r/u7AK#SbtDBh%(cEW-FC[@SW}P&Ogux+-+xcIw)"},{"name":"Mesh130","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh132","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijklmklmnopbcjnopfgphijqrjstmstpdemqr","facets":"1abcdcbceaefaghfafheciicgcjghgjjckdkclmdmndokndnkdbllbpbopnpohoabaoohkjkh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"-SzRTs%R&M5uV~9cqY)Q1y)$cWd;*G>xJ|4.>I+852gK7j2,Z(_N)ryEMZ#S6z}Zb5ak]v:IaV+#[KIOeTpcYdM0wd46r]guZu$y,DYK>L|@QIfnu|uCeBx[%{sB"},{"name":"Mesh133","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijdeklmjhinlmnopkopjfgjbckqrkstnqrnst","facets":"1abcbadefgfebfbhhbigjdjgfdjidibbkckbelmnmlamaooackncnklcnpcpoldadlggkekgl","wires":[],"faceColors":[],"facesToFacets":[],"floats":"-SzRSs%R.}q(m^0c@W:Zu$q(EPScTi1MU5*2{HTc^6rXC/-([G8[!7*D=Y,L(!*){.Ui0TvC4.;xx5F92=Cd5/{!Vo.V2G8[2#Ax,DYK>L|@QIfnu|uCeBx[%{sB"},{"name":"Mesh144","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh142","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghfijaklfklaghaijamnfmnfopfqraopaqr","facets":"1abcdcbefdcdfbgdhdgibjajbkalclajfieifmehdhefnclcniobgbojapkpaieomoepnjfjn","wires":[],"faceColors":[],"facesToFacets":[],"floats":"Yt9RWQrSjK|2ZyTc4oT6-8wLTdfu1zEL~,S5CFh7U+Uj>Y_I~GtRcN4;/50cGSP%sjwLLGK&vn.K@9:w;cPZ5X]j7*WQfD[w},%OC5ydSB(4`NZC6#?t"},{"name":"Mesh148","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh146","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijklmklmnopbcjnopfgphijqrjstmstpdemqr","facets":"1abcdcbceaefaghfafheciicgcjghgjjckdkclmdmndokndnkdbllbpbopnpohoabaoohkjkh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"]d;Y6UrS&M5uV~9cqY)Q1y)$cWd;*G>xJ|4.>I+852gK7j2,Z(_N*ryE~,S5HFh7b5ak]v:ImX+#+&82eTpcYdM0wd46b^kuF!DF,DYK>L|@QIfnu|uCeBx[%{sB"},{"name":"Mesh136","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghaghaijfij","facets":"1abcdcbbcdcbadebfbeebfbedabgfgbbgfgbacahghaahghacchdedhhdedhcghfefhhfefhg","wires":[],"faceColors":[],"facesToFacets":[],"floats":")_oRPs%R41R;>-0c^&-6sjwLLGK&wn.KyhPN/!|ZnlIkXxZG3#C@%Es(3=0cxPv4"},{"name":"Mesh138","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh140","color":"#cccccc","opacity":1.0,"verts":"1abcdefaefdbc","facets":"1abcbad","wires":[],"faceColors":[],"facesToFacets":[],"floats":"P9mKPs%RcN4;/50c0SP%je&$S|`:+hJ^du$@5QL?"},{"name":"Mesh137","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh139","color":"#cccccc","opacity":1.0,"verts":"1abcdbcaefdef","facets":"1abcdcb","wires":[],"faceColors":[],"facesToFacets":[],"floats":")_oRPs%RcN4;/50cVSP%/JY_S|`:+hJ^du$@5QL?"},{"name":"Mesh141","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh135","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh143","color":"#cccccc","opacity":1.0,"verts":"1abcdefdbcaefdghdijakldklaghaijdmnamndopdqraopaqr","facets":"1abcbadecbcefgchcgaaidiajdkbkdlejfjeifhchfmnbkbneoagaojdplpdifomofjnieinp","wires":[],"faceColors":[],"facesToFacets":[],"floats":"Yt9RWQrSZ~]2DCTc[da4>z]TzfI&+hJ^du$@QtN?j3qk-s^Id[C>^/Y;t&0c}A_!sjwLLGK&vn.K@9:w;cPZ5X]j7*WQfD[w},%OC5ydSB(4`NZC6#?t"},{"name":"Mesh145","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh147","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijdeklmjhinlmnopkopjfgjbckqrkstnqrnst","facets":"1abcbadefgfebfbhhbigjdjgfdjidibbkckbelmnmlamaooackncnklcnpcpoldadlggkekgl","wires":[],"faceColors":[],"facesToFacets":[],"floats":"]d;Y5UrS.}q(m^0c@W:Zu$q(EPScTi1MU5*2{HTc^6rXC/-([G8[#7*DJ,$XQJh7o:cj0TvC4.;xx5F9A|]dYh`!Vo.V2G8[2#Ax,DYK>L|@QIfnu|uCeBx[%{sB"},{"name":"Mesh154","color":"#cccccc","opacity":1.0,"verts":"1abcdefaefdbc","facets":"1abcbad","wires":[],"faceColors":[],"facesToFacets":[],"floats":"Yt9R2UrScN4;/50c>SP%>z]TzfI&+hJ^du$@5QL?"},{"name":"Mesh157","color":"#cccccc","opacity":1.0,"verts":"1abcdefdbcaefdghdijakldklaghaijdmnamndopdqraopaqr","facets":"1abcbadecbcefgchcgaaidiajdkbkdlejfjeifhchfmnbkbneoagaojdplpdifomofjnieinp","wires":[],"faceColors":[],"facesToFacets":[],"floats":")B%7SntTZ~]2DCTcsea4[B{=zfI&+hJ^du$@QtN?j3qk-s^Id[C>^/Y;t&0c}A_!sjwLLGK&vn.K@9:w;cPZ5X]j7*WQfD[w},%OC5ydSB(4`NZC6#?t"},{"name":"Mesh152","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh153","color":"#cccccc","opacity":1.0,"verts":"1abcdbcaefdef","facets":"1abcdcb","wires":[],"faceColors":[],"facesToFacets":[],"floats":"?P!Y2UrScN4;/50c!SP%Z6$#zfI&+hJ^du$@5QL?"},{"name":"Mesh151","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh155","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh156","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghfijaklfklaghaijamnfmnfopfqraopaqr","facets":"1abcdcbefdcdfbgdhdgibjajbkalclajfieifmehdhefnclcniobgbojapkpaieomoepnjfjn","wires":[],"faceColors":[],"facesToFacets":[],"floats":")B%7SntTjK|2ZyTc4oT6-8wLTdfu3zEL!$9@&nD-U+Uj>Y_I~GtRcN4;/50cGSP%sjwLLGK&vn.K@9:w;cPZ5X]j7*WQfD[w},%OC5ydSB(4`NZC6#?t"},{"name":"Mesh150","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghaghaijfij","facets":"1abcdcbbcdcbadebfbeebfbedabgfgbbgfgbacahghaahghacchdedhhdedhcghfefhhfefhg","wires":[],"faceColors":[],"facesToFacets":[],"floats":"?P!Y2UrS41R;>-0c^&-6sjwLLGK&xn.K/NwZY)g7nlIkXxZG3#C@%Es(3=0cxPv4"},{"name":"Mesh149","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh169","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh160","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijklmklmnopbcjnopfgphijqrjstmstpdemqr","facets":"1abcdcbceaefaghfafheciicgcjghgjjckdkclmdmndokndnkdbllbpbopnpohoabaoohkjkh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"D{@%XV#Q&M5uV~9cqY)Q1y)$cWd;*G>xJ|4.>I+852gK7j2,Z(_N-ryE!$9@-nD-b5ak]v:IK2+#3Ku]eTpcYdM0wd46c?suL#YS,DYK>L|@QIfnu|uCeBx[%{sB"},{"name":"Mesh159","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh163","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh166","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh164","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghaghaijfij","facets":"1abcdcbbcdcbadebfbeebfbedabgfgbbgfgbacahghaahghacchdedhhdedhcghfefhhfefhg","wires":[],"faceColors":[],"facesToFacets":[],"floats":"x-6%XrtT41R;>-0c^&-6sjwLLGK&zn.K.o=/~YC-nlIkXxZG3#C@%Es(3=0cxPv4"},{"name":"Mesh167","color":"#cccccc","opacity":1.0,"verts":"1abcdbcaefdef","facets":"1abcdcb","wires":[],"faceColors":[],"facesToFacets":[],"floats":"x-6%XrtTcN4;/50ccTP%fldAzfI&+hJ^du$@5QL?"},{"name":"Mesh165","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh162","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh158","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh161","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijdeklmjhinlmnopkopjfgjbckqrkstnqrnst","facets":"1abcbadefgfebfbhhbigjdjgfdjidibbkckbelmnmlamaooackncnklcnpcpoldadlggkekgl","wires":[],"faceColors":[],"facesToFacets":[],"floats":"D{@%WV#Q.}q(m^0c@W:Zu$q(EPScTi1MU5*2{HTc^6rXC/-([G8[%7*Dgm+-/m&M@Uek0TvC4.;xx5F9iOefwmg#Vo.V2G8[2#Ax,DYK>L|@QIfnu|uCeBx[%{sB"},{"name":"Mesh168","color":"#cccccc","opacity":1.0,"verts":"1abcdefaefdbc","facets":"1abcbad","wires":[],"faceColors":[],"facesToFacets":[],"floats":")B%7XrtTcN4;/50cpTP%[B{=zfI&+hJ^du$@5QL?"},{"name":"Mesh178","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghaghaijfij","facets":"1abcdcbbcdcbadebfbeebfbedabgfgbbgfgbacahghaahghacchdedhhdedhcghfefhhfefhg","wires":[],"faceColors":[],"facesToFacets":[],"floats":"r/u7gG#S41R;>-0c^&-6sjwLLGK&yn.KI:d#*8!$nlIkXxZG3#C@%Es(3=0cxPv4"},{"name":"Mesh182","color":"#cccccc","opacity":1.0,"verts":"1abcdefaefdbc","facets":"1abcbad","wires":[],"faceColors":[],"facesToFacets":[],"floats":"8)rZgG#ScN4;/50cbTP%ce1CzfI&+hJ^du$@5QL?"},{"name":"Mesh176","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh171","color":"#cccccc","opacity":1.0,"verts":"1abcdefdbcaefdghdijakldklaghaijdmnamndopdqraopaqr","facets":"1abcbadecbcefgchcgaaidiajdkbkdlejfjeifhchfmnbkbneoagaojdplpdifomofjnieinp","wires":[],"faceColors":[],"facesToFacets":[],"floats":"8)rZbC#SZ~]2DCTceea4ce1CzfI&+hJ^du$@QtN?j3qk-s^Id[C>^/Y;t&0c}A_!sjwLLGK&vn.K@9:w;cPZ5X]j7*WQfD[w},%OC5ydSB(4`NZC6#?t"},{"name":"Mesh173","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh170","color":"#cccccc","opacity":1.0,"verts":"1abcadefbcfdefghfijaklfklaghaijamnfmnfopfqraopaqr","facets":"1abcdcbefdcdfbgdhdgibjajbkalclajfieifmehdhefnclcniobgbojapkpaieomoepnjfjn","wires":[],"faceColors":[],"facesToFacets":[],"floats":"8)rZbC#SjK|2ZyTc4oT6-8wLTdfu2zELZ@K)Vw#$U+Uj>Y_I~GtRcN4;/50cGSP%sjwLLGK&vn.K@9:w;cPZ5X]j7*WQfD[w},%OC5ydSB(4`NZC6#?t"},{"name":"Mesh177","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh172","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh175","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijdeklmjhinlmnopkopjfgjbckqrkstnqrnst","facets":"1abcbadefgfebfbhhbigjdjgfdjidibbkckbelmnmlamaooackncnklcnpcpoldadlggkekgl","wires":[],"faceColors":[],"facesToFacets":[],"floats":"uKF7jG#S.}q(m^0c@W:Zu$q(EPScTi1MU5*2{HTc^6rXC/-([G8[$7*D{zU0N3#$U8Wj0TvC4.;xx5F95mRe^3c#Vo.V2G8[2#Ax,DYK>L|@QIfnu|uCeBx[%{sB"},{"name":"Mesh179","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh174","color":"#cccccc","opacity":1.0,"verts":"1abcadeafgahijklmklmnopbcjnopfgphijqrjstmstpdemqr","facets":"1abcdcbceaefaghfafheciicgcjghgjjckdkclmdmndokndnkdbllbpbopnpohoabaoohkjkh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"uKF7kG#S&M5uV~9cqY)Q1y)$cWd;*G>xJ|4.>I+852gK7j2,Z(_N+ryEZ@K)1w#$b5ak]v:IyZ+#!g{&eTpcYdM0wd46=^ou}?{L,DYK>L|@QIfnu|uCeBx[%{sB"},{"name":"Mesh180","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh181","color":"#cccccc","opacity":1.0,"verts":"1abcdbcaefdef","facets":"1abcdcb","wires":[],"faceColors":[],"facesToFacets":[],"floats":"r/u7gG#ScN4;/50c?SP%C[@SzfI&+hJ^du$@5QL?"},{"name":"Mesh190","color":"#cccccc","opacity":1.0,"verts":"1abcdefdbcaefaghaijaklamnaopaqrastauvawxayzdyzdghdijdkldmndopdqrdstduvdwx","facets":"1abcbaddabcbaeafaegaghhgiijkjilligfdmdfamdnndmafdmdfgillijkjiighhgageafaeodndobbodndopcqcprcrssrttuvutwwtrqbxbqcxboobxcqbxbqrtwwtuvuttrssrcrpcqcpashsaccashsauljluwwuljluukvkujjukvkutkiktvvtkiktthshtiithshtnxoxnmmnxoxnqmfmqxxqmfmqqepeqffqepeqregerppregergwrwgllgwrwg","wires":[],"faceColors":[],"facesToFacets":[],"floats":"MicKR3bT1*Q9~3!cgz=6S`2DQZ_8>+J!sqhzZ(gE{4Vm[ldJu|VN+lOBnM!cf2*Ee%=*BrYUE-kND2&F0WX5cW3i~bz4@9b$JM/u97wec*ICL^DPVy+[]$lWOk#D!zc_3J_khtNJ,uC.}q@u+;!cE>0>qARXI3d;an%1"},{"name":"Mesh187","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh195","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh186","color":"#cccccc","opacity":1.0,"verts":"1abcdefdbcaefaghaijaklamnaopaqrastauvawxayzdyzdghdijdkldmndopdqrdstduvdwx","facets":"1abcbaddabcbaeafaegaghhgiijkjilligfdmdfamdnndmafdmdfgillijkjiighhgageafaeodndobbodndopcqcprcrssrttuvutwwtrqbxbqcxboobxcqbxbqrtwwtuvuttrssrcrpcqcpashsaccashsauljluwwuljluukvkujjukvkutkiktvvtkiktthshtiithshtnxoxnmmnxoxnqmfmqxxqmfmqqepeqffqepeqregerppregergwrwgllgwrwg","wires":[],"faceColors":[],"facesToFacets":[],"floats":"MicK=XbT$+YOZ;UcRtAzS`2Dl>;8}[/1?WL^GyKW_=_lwa(G4xiX:v(;S7Ucd#S$1gg4IM7[lAF>We=>L6BR+xQlYC]MZ1r.!J4;pt`c3;q>amx%!c1Ub/YM17Q.*0}y0pqk2ZdHZVMz[tp(&|Uc}krS%6#IR}AH$4&x"},{"name":"Mesh183","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh191","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh184","color":"#cccccc","opacity":1.0,"verts":"1abcdefdbcaefaghaijaklamnaopaqrastauvawxayzdyzdghdijdkldmndopdqrdstduvdwx","facets":"1abcbaddabcbaeafaegaghhgiijkjilligfdmdfamdnndmafdmdfgillijkjiighhgageafaeodndobbodndopcqcprcrssrttuvutwwtrqbxbqcxboobxcqbxbqrtwwtuvuttrssrcrpcqcpashsaccashsauljluwwuljluukvkujjukvkutkiktvvtkiktthshtiithshtnxoxnmmnxoxnqmfmqxxqmfmqqepeqffqepeqregerppregergwrwgllgwrwg","wires":[],"faceColors":[],"facesToFacets":[],"floats":"MicKIVbTF@19bERc_HC1S`2DZv*8s5G^cF`/I{OZBJ^iy+wGOA{4i{+H{oRc*{wzY!35F7WUdahG~`4Yv7n!#monS{wE~Z..^9+u`DDcb)__Au;(.$8A;dZ%[)h@q[XDZ8HmOzWGNmKGH,sB1YRcetp-fJ%Kflc;(F0T"},{"name":"Mesh185","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh189","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh192","color":"#cccccc","opacity":1.0,"verts":"1abcdefdbcaefaghaijaklamnaopaqrastauvawxayzdyzdghdijdkldmndopdqrdstduvdwx","facets":"1abcbaddabcbaeafaegaghhgiijkjilligfdmdfamdnndmafdmdfgillijkjiighhgageafaeodndobbodndopcqcprcrssrttuvutwwtrqbxbqcxboobxcqbxbqrtwwtuvuttrssrcrpcqcpashsaccashsauljluwwuljluukvkujjukvkutkiktvvtkiktthshtiithshtnxoxnmmnxoxnqmfmqxxqmfmqqepeqffqepeqregerppregergwrwgllgwrwg","wires":[],"faceColors":[],"facesToFacets":[],"floats":"MicKE5bTeR!OHz%c8Go^S`2D5e|8(OC>|CbEf!P@b1Ui*dLJ?p7$vZj]Wi%cD1O1W}g4>^8[WRB!z:RElP|@kvIk1f;0vUpA=(n]$[(e_4BLxd5{w(;[9Ke!7MgH%d,W0;~lq.;J*kaQGYV;XM%cVJyGR9rJIA.Nox-="},{"name":"Mesh193","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh188","color":"#cccccc","opacity":1.0,"verts":"1abcdefdbcaefaghaijaklamnaopaqrastauvawxayzdyzdghdijdkldmndopdqrdstduvdwx","facets":"1abcbaddabcbaeafaegaghhgiijkjilligfdmdfamdnndmafdmdfgillijkjiighhgageafaeodndobbodndopcqcprcrssrttuvutwwtrqbxbqcxboobxcqbxbqrtwwtuvuttrssrcrpcqcpashsaccashsauljluwwuljluukvkujjukvkutkiktvvtkiktthshtiithshtnxoxnmmnxoxnqmfmqxxqmfmqqepeqffqepeqregerppregergwrwgllgwrwg","wires":[],"faceColors":[],"facesToFacets":[],"floats":"MicK3ZbT?QUuJXWc?F>.S`2D/n?8!Arx1&+.J[7I#wUjBDaH2S8W|,!2YGWcy(-6jFI-cWd;Lj2!?~4-]xjG1bLkOmkT6cf&wYMOixQdI)HJx9=Q0E4U?wm=4EoxU&1{aM`m__,Iv;gzK_kVs)WcspSL4dTZ)jBHy*r>"},{"name":"Mesh194","color":"#cccccc","opacity":1.0,"verts":"1abcdefdbcaefaghaijaklamnaopaqrastauvawxayzdyzdghdijdkldmndopdqrdstduvdwx","facets":"1abcbaddabcbaeafaegaghhgiijkjilligfdmdfamdnndmafdmdfgillijkjiighhgageafaeodndobbodndopcqcprcrssrttuvutwwtrqbxbqcxboobxcqbxbqrtwwtuvuttrssrcrpcqcpashsaccashsauljluwwuljluukvkujjukvkutkiktvvtkiktthshtiithshtnxoxnmmnxoxnqmfmqxxqmfmqqepeqffqepeqregerppregergwrwgllgwrwg","wires":[],"faceColors":[],"facesToFacets":[],"floats":"MicK-7bT$I9uA#)c-031S`2D(7a9(3CX8+UK2p^/5[Vl_D_J!4(6U>>2i1)c%TNzj=a1_8YU|w=MN(>5@Wz*>(Zi[SP+:.Bz`4X9])Lf&hCEeEk.DdVHSudJUs4NhVn0:&^jlLCKz@CKw/yVi_)cdFQ-9K7FYge;ZcD1"},{"name":"Mesh204","color":"#cccccc","opacity":1.0,"verts":"1abcdecaecdbcdefdbfaefabf","facets":"1abcbaddabcbaedbdeffedbdeecgcebbecgcehcachgghcachdhahdffdhahdhegehffhegeh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"2(B0o4&WM?dVk,Zb*^uuOtLJ+-KC~rC+j:Tv"},{"name":"Mesh207","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh198","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh201","color":"#cccccc","opacity":1.0,"verts":"1abcdbeabedbcfghaghibcdjkfbcalmajkflmijkfjkdjefgeageibefbealeajefleijefje","facets":"1abcbaddabcbaeafaeddegdghgeihjkjhllhmmhglmnnmlghmmhllhjkjhieghgdgeddeafaehbdbhoohbdbhpcqcpbbprbrorpsotutovvowworvwxxwvrowwovvotutosprorbrpbbpcqcpaqfqaccaqfqaeqpqeffeqpqesepesiisepesgsrsgiigsrsgwgrgwmmwgrgwnwxwnmmnwxwnvnxnvllvnxnvjvtvjlljvtvjjukujttjukujhuouhkkhuouh","wires":[],"faceColors":[],"facesToFacets":[],"floats":":p100OwX5qD9wK!c=V?=wf7FUr{8NNNw(0ek:w`%PqwZ1WB9Si)e(5|Dm_$#O[p2Bp8/w|_y{x0#cj3i"},{"name":"Mesh196","color":"#cccccc","opacity":1.0,"verts":"1abcdbeabedbcfghaghibcdjkfbcalmajkflmijkfjkdjefgeageibefbealeajefleijefje","facets":"1abcbaddabcbaeafaeddegdghgeihjkjhllhmmhglmnnmlghmmhllhjkjhieghgdgeddeafaehbdbhoohbdbhpcqcpbbprbrorpsotutovvowworvwxxwvrowwovvotutosprorbrpbbpcqcpaqfqaccaqfqaeqpqeffeqpqesepesiisepesgsrsgiigsrsgwgrgwmmwgrgwnwxwnmmnwxwnvnxnvllvnxnvjvtvjlljvtvjjukujttjukujhuouhkkhuouh","wires":[],"faceColors":[],"facesToFacets":[],"floats":":p10yFwXm~X;x@NcpHJ@wf7F>t{8dbO?(0ek=u;GuAR:_x%2Si)ec5|D5#SZ3W9AA8P^Q^iy2X/-yAlj"},{"name":"Mesh202","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh197","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh200","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh199","color":"#cccccc","opacity":1.0,"verts":"1abcdecaecdbcdefdbfaefabf","facets":"1abcbaddabcbaedbdeffedbdeecgcebbecgcehcachgghcachdhahdffdhahdhegehffhegeh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"2(B0$T&WJ7y9Wx1b4U$UJtLJW7.z:4P@%L~M"},{"name":"Mesh203","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh205","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh206","color":"#cccccc","opacity":1.0,"verts":"1abcdbeabedbcfghaghibcdjkfbcalmajkflmijkfjkdjefgeageibefbealeajefleijefje","facets":"1abcbaddabcbaeafaeddegdghgeihjkjhllhmmhglmnnmlghmmhllhjkjhieghgdgeddeafaehbdbhoohbdbhpcqcpbbprbrorpsotutovvowworvwxxwvrowwovvotutosprorbrpbbpcqcpaqfqaccaqfqaeqpqeffeqpqesepesiisepesgsrsgiigsrsgwgrgwmmwgrgwnwxwnmmnwxwnvnxnvllvnxnvjvtvjlljvtvjjukujttjukujhuouhkkhuouh","wires":[],"faceColors":[],"facesToFacets":[],"floats":":p10rKwXYZ.&DRTch6hSwf7FOs{8kQzP(0ekdapY3}#6Jo-uSi)eH5|D-:36c}9AEvqS,%96~:60#qQl"},{"name":"Mesh209","color":"#cccccc","opacity":1.0,"verts":"1abcdecaecdbcdefdbfaefabf","facets":"1abcbaddabcbaedbdeffedbdeecgcebbecgcehcachgghcachdhahdffdhahdhegehffhegeh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"2(B06Y&W7v82yf1bPls;LtLJ`QU88a*(hjZ!"},{"name":"Mesh210","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh215","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh220","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh222","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh212","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh211","color":"#cccccc","opacity":1.0,"verts":"1abcdefaefdbcghiahijefdklgefamnaklgmnjklgklaopgopjbcdqrgbcastaqrgstjqrgqr","facets":"1abcbaddabcbaecfcebbegbghgeihjkjhllhmmhglmnnmlghmmhllhjkjhieghgbgebbecfceocfcoaaocfcopaoapddpqdqrqpsrtutrvvrwwrqvwxxwvqrwwrvvrtutrspqrqdqpddpaoapdhbhdrrdhbhdtljltvvtljltujkjuttujkjurkhkruurkhkrpfefpoopfefpipepissipepiqigiqssqigiqmqgqmwwmqgqmxmnmxwwxmnmxlxnxlvvlxnxl","wires":[],"faceColors":[],"facesToFacets":[],"floats":":p10|DwX!4LBYMLc-90Dwf7FV@b9-H~Ey5wE#>o!(0ekv`):|(](;w:;Si)e>5|D/^/)W2.Nnpf7cB(.hQp#Bvflk4qCYhI5qmDB9@oc@FU+o]/*3BUUts}Gl1&-V6DT"},{"name":"Mesh213","color":"#cccccc","opacity":1.0,"verts":"1abcdbeabedbcfghaghibcdjkfbcalmajkflmijkfjkdjefgeageibefbealeajefleijefje","facets":"1abcbaddabcbaeafaeddegdghgeihjkjhllhmmhglmnnmlghmmhllhjkjhieghgdgeddeafaehbdbhoohbdbhpcqcpbbprbrorpsotutovvowworvwxxwvrowwovvotutosprorbrpbbpcqcpaqfqaccaqfqaeqpqeffeqpqesepesiisepesgsrsgiigsrsgwgrgwmmwgrgwnwxwnmmnwxwnvnxnvllvnxnvjvtvjlljvtvjjukujttjukujhuouhkkhuouh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"iJkN=RrSm~X;x@Nc0GJ@$LQwflZ&qiN?o:cj=u;GuAR:_x%2[TcdEZ[D5#SZ3W9AA8P^Q^iy2X/-yAlj"},{"name":"Mesh208","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh214","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh217","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh218","color":"#cccccc","opacity":1.0,"verts":"1abcdbeabedbcfghaghibcdjkfbcalmajkflmijkfjkdjefgeageibefbealeajefleijefje","facets":"1abcbaddabcbaeafaeddegdghgeihjkjhllhmmhglmnnmlghmmhllhjkjhieghgdgeddeafaehbdbhoohbdbhpcqcpbbprbrorpsotutovvowworvwxxwvrowwovvotutosprorbrpbbpcqcpaqfqaccaqfqaeqpqeffeqpqesepesiisepesgsrsgiigsrsgwgrgwmmwgrgwnwxwnmmnwxwnvnxnvllvnxnvjvtvjlljvtvjjukujttjukujhuouhkkhuouh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"iJkNw2rS5qD9wK!cFV?=$LQw%iZ&1UMwo:cj:w`%PqwZ1WB9[Tcdf1[Dm_$#O[p2Bp8/w|_y{x0#cj3i"},{"name":"Mesh216","color":"#cccccc","opacity":1.0,"verts":"1abcdecaecdbcdefdbfaefabf","facets":"1abcbaddabcbaedbdeffedbdeecgcebbecgcehcachgghcachdhahdffdhahdhegehffhegeh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"_#=M`VbTJ7y9Wx1b%G2Un@owW7.z:4P@%L~M"},{"name":"Mesh219","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh221","color":"#cccccc","opacity":1.0,"verts":"1abcdecaecdbcdefdbfaefabf","facets":"1abcbaddabcbaedbdeffedbdeecgcebbecgcehcachgghcachdhahdffdhahdhegehffhegeh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"_#=MN6bTM?dVk,Zb[(jus@ow+-KC~rC+j:Tv"},{"name":"Mesh234","color":"#cccccc","opacity":1.0,"verts":"1abcadcebcedc","facets":"1abcdcb","wires":[],"faceColors":[],"facesToFacets":[],"floats":"942P;WbTlvXuVx1bJ&AHEh#QF#R+0T0$"},{"name":"Mesh226","color":"#cccccc","opacity":1.0,"verts":"1abcdecaecdbcdefdbfaefabf","facets":"1abcbaddabcbaedbdeffedbdeecgcebbecgcehcachgghcachdhahdffdhahdhegehffhegeh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"_#=M_1bT7v82yf1bZ}g;p@ow`QU88a*(hjZ!"},{"name":"Mesh227","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh223","color":"#cccccc","opacity":1.0,"verts":"1abcdbeabedbcfghaghibcdjkfbcalmajkflmijkfjkdjefgeageibefbealeajefleijefje","facets":"1abcbaddabcbaeafaeddegdghgeihjkjhllhmmhglmnnmlghmmhllhjkjhieghgdgeddeafaehbdbhoohbdbhpcqcpbbprbrorpsotutovvowworvwxxwvrowwovvotutosprorbrpbbpcqcpaqfqaccaqfqaeqpqeffeqpqesepesiisepesgsrsgiigsrsgwgrgwmmwgrgwnwxwnmmnwxwnvnxnvllvnxnvjvtvjlljvtvjjukujttjukujhuouhkkhuouh","wires":[],"faceColors":[],"facesToFacets":[],"floats":"iJkN)WrSYZ.&DRTc25hS$LQw8jZ&xXyPo:cjdapY3}#6Jo-u[Tcd0Z[D-:36c}9AEvqS,%96~:60#qQl"},{"name":"Mesh224","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh229","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh228","color":"#cccccc","opacity":1.0,"verts":"1abcdefaefdbcghiahijefdklgefamnaklgmnjklgklaopgopjbcdqrgbcastaqrgstjqrgqr","facets":"1abcbaddabcbaecfcebbegbghgeihjkjhllhmmhglmnnmlghmmhllhjkjhieghgbgebbecfceocfcoaaocfcopaoapddpqdqrqpsrtutrvvrwwrqvwxxwvqrwwrvvrtutrspqrqdqpddpaoapdhbhdrrdhbhdtljltvvtljltujkjuttujkjurkhkruurkhkrpfefpoopfefpipepissipepiqigiqssqigiqmqgqmwwmqgqmxmnmxwwxmnmxlxnxlvvlxnxl","wires":[],"faceColors":[],"facesToFacets":[],"floats":"iJkNVQrS!4LBYMLcB90D$LQw&*6&-H~Ey5wE>,n!o:cjv`):|(](;w:;[Tcdo1[D/^/)W2.Nnpf7cB(.hQp#Bvflk4qCYhI5qmDB9@oc@FU+o]/*3BUUts}Gl1&-V6DT"},{"name":"Mesh225","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh232","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""},{"name":"Mesh233","color":"#cccccc","opacity":1.0,"verts":"1abcdecdbcaec","facets":"1abcbad","wires":[],"faceColors":[],"facesToFacets":[],"floats":"942P.VbT+-%2Vx1b7cEHn@ow~LpEK?T_"},{"name":"Mesh235","color":"#cccccc","opacity":1.0,"verts":"","facets":"","wires":[],"faceColors":[],"facesToFacets":[],"floats":""}],"compressed":true,"base":"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#$%&()*+-:;/=>?@[]^_,.{|}~`","baseFloat":",.-0123456789"};
+
+            // Z is up for FreeCAD
+            THREE.Object3D.DefaultUp = new THREE.Vector3(0, 0, 1);
+
+            const defaultWireColor = new THREE.Color('rgb(0,0,0)');
+            const defaultWireLineWidth = 2; // in pixels
+
+            const raycasterObj = []; // list of obj that can mouseover highlight
+
+            const canvas = document.querySelector('#mainCanvas');
+
+            const scene = new THREE.Scene();
+
+            const renderer = new THREE.WebGLRenderer({
+                alpha: true,
+                antialias: true,
+                canvas: canvas
+            }); // Clear bg so we can set it with css
+            renderer.setClearColor(0x000000, 0);
+
+            let renderRequested = false;
+
+            // HemisphereLight gives different colors of light from the top
+            // and bottom simulating reflected light from the 'ground' and
+            // 'sky'
+            scene.add(new THREE.HemisphereLight(0xC7E8FF, 0xFFE3B3, 0.4));
+
+            const dLight1 = new THREE.DirectionalLight(0xffffff, 0.4);
+            dLight1.position.set(5, -2, 3);
+            scene.add(dLight1);
+            const dLight2 = new THREE.DirectionalLight(0xffffff, 0.4);
+            dLight2.position.set(-5, 2, 3);
+            scene.add(dLight2);
+
+            if (data.compressed) {
+                const base = data.base;
+                const baseFloat = data.baseFloat;
+
+                function baseDecode(input) {
+                    const baseCt = base.length;
+                    const output = [];
+                    const len = parseInt(input[0]); // num chars of each element
+                    for (let i = 1; i < input.length; i += len) {
+                        const str = input.substring(i, i + len).trim();
+                        let val = 0;
+                        for (let s = 0; s < str.length; s++) {
+                            const ind = base.indexOf(str[s]);
+                            val += ind * Math.pow(baseCt, s);
+                        }
+                        output.push(val);
+                    }
+                    return output;
+                }
+
+                function floatDecode(input) {
+                    const baseCt = base.length;
+                    const baseFloatCt = baseFloat.length;
+                    let numString = '';
+                    for (let i = 0; i < input.length; i += 4) {
+                        const b90chunk = input.substring(i, i + 4).trim();
+                        let quotient = 0;
+                        for (let s = 0; s < b90chunk.length; s++) {
+                            const ind = base.indexOf(b90chunk[s]);
+                            quotient += ind * Math.pow(baseCt, s);
+                        }
+                        let buffer = '';
+                        for (let s = 0; s < 7; s++) {
+                            buffer = baseFloat[quotient % baseFloatCt] + buffer;
+                            quotient = parseInt(quotient / baseFloatCt);
+                        }
+                        numString += buffer;
+                    }
+                    let trailingCommas = 0;
+                    for (let s = 1; s < 7; s++) {
+                        if (numString[numString.length - s] == baseFloat[0]) {
+                            trailingCommas++;
+                        }
+                    }
+                    numString = numString.substring(0, numString.length - trailingCommas);
+                    return numString;
+                }
+
+                // Decode from base90 and distribute the floats
+                for (const obj of data.objects) {
+                    obj.floats = JSON.parse('[' + floatDecode(obj.floats) + ']');
+                    obj.verts = baseDecode(obj.verts).map(x => obj.floats[x]);
+                    obj.facets = baseDecode(obj.facets);
+                    obj.wires = obj.wires.map(w => baseDecode(w).map(x => obj.floats[x]));
+                    obj.facesToFacets = obj.facesToFacets.map(x => baseDecode(x));
+                }
+            }
+
+            // Get bounds for global clipping
+            const globalMaxMin = [{min: null, max: null},
+                                  {min: null, max: null},
+                                  {min: null, max: null}];
+            for (const obj of data.objects) {
+                for (let v = 0; v < obj.verts.length; v++) {
+                    if (globalMaxMin[v % 3] === null
+                        || obj.verts[v] < globalMaxMin[v % 3].min) {
+                        globalMaxMin[v % 3].min = obj.verts[v];
+                    }
+                    if (globalMaxMin[v % 3] === null
+                        || obj.verts[v] > globalMaxMin[v % 3].max) {
+                        globalMaxMin[v % 3].max = obj.verts[v];
+                    }
+                }
+            }
+            let bigrange = 0;
+            // add a little extra
+            for (const i of globalMaxMin) {
+                const range = i.max - i.min;
+                if (range > bigrange) {
+                    bigrange = range;
+                }
+                i.min -= range * 0.01;
+                i.max += range * 0.01;
+            }
+
+            const camCenter = new THREE.Vector3(
+                0.5 * (globalMaxMin[0].max - globalMaxMin[0].min) + globalMaxMin[0].min,
+                0.5 * (globalMaxMin[1].max - globalMaxMin[1].min) + globalMaxMin[1].min,
+                0.5 * (globalMaxMin[2].max - globalMaxMin[2].min) + globalMaxMin[2].min );
+            const viewSize = 1.5 * bigrange; // make the view area a little bigger than the object
+            const aspectRatio = canvas.clientWidth / canvas.clientHeight;
+            const originalAspect = aspectRatio;
+
+            function initCam(camera) {
+                // XXX this needs to treat the perspective and orthographic
+                // cameras differently
+                camera.position.set(
+                    data.camera.position_x,
+                    data.camera.position_y,
+                    data.camera.position_z);
+                camera.lookAt(camCenter);
+                camera.updateMatrixWorld();
+            }
+
+            let cameraType = data.camera.type;
+            const persCamera = new THREE.PerspectiveCamera(
+                50, aspectRatio, 1, 100000);
+            initCam(persCamera);
+            const orthCamera = new THREE.OrthographicCamera(
+                -aspectRatio * viewSize / 2, aspectRatio * viewSize / 2,
+                viewSize / 2, -viewSize / 2, -100000, 100000);
+            initCam(orthCamera);
+
+            function assignMesh(positions, color, opacity, faces) {
+                const baseGeometry = new THREE.BufferGeometry();
+                baseGeometry.setAttribute('position', new THREE.BufferAttribute(
+                    positions, 3));
+
+                // EdgeSplitModifier is used to combine verts so that smoothing normals can be generated WITHOUT removing the hard edges of the design
+                // REF: https://threejs.org/examples/?q=edge#webgl_modifier_edgesplit - https://github.com/mrdoob/three.js/pull/20535
+                const edgeSplit = new EdgeSplitModifier();
+                const cutOffAngle = 20;
+                const geometry = edgeSplit.modify(
+                    baseGeometry, cutOffAngle * Math.PI / 180);
+                geometry.computeVertexNormals();
+                geometry.computeBoundingSphere();
+
+                const material = new THREE.MeshLambertMaterial({
+                    color: color,
+                    side: THREE.DoubleSide,
+                    vertexColors: false,
+                    flatShading: false,
+                    opacity: opacity,
+                    transparent: opacity != 1.0,
+                    fog: false
+                });
+
+                const meshobj = new THREE.Mesh(geometry, material);
+                meshobj.name = meshobj.uuid;
+                faces.push(meshobj.uuid);
+                scene.add(meshobj);
+                raycasterObj.push(meshobj);
+            }
+
+            const objects = [];
+            for (const obj of data.objects) {
+                // Each face gets its own material because they each can
+                // have different colors
+                const faces = [];
+                if (obj.facesToFacets.length > 0) {
+                    for (let f=0; f < obj.facesToFacets.length; f++) {
+                        const facecolor = obj.faceColors.length > 0 ? obj.faceColors[f] : obj.color;
+                        const positions = new Float32Array(obj.facesToFacets[f].length * 9);
+                        for (let a=0; a < obj.facesToFacets[f].length; a++) {
+                            for (let b=0; b < 3; b++) {
+                                for (let c=0; c < 3; c++) {
+                                    positions[9 * a + 3 * b + c] = obj.verts[3 * obj.facets[3 * obj.facesToFacets[f][a] + b ] + c ];
+                                }
+                            }
+                        }
+                        assignMesh(positions, facecolor, obj.opacity, faces);
+                    }
+                } else {
+                    // No facesToFacets means that there was a tessellate()
+                    // mismatch inside FreeCAD. Use all facets in object to
+                    // create this mesh
+                    const positions = new Float32Array(obj.facets.length * 3);
+                    for (let a=0; a < obj.facets.length; a++) {
+                        for (let b=0; b < 3; b++) {
+                            positions[3 * a + b] = obj.verts[3 * obj.facets[a] + b];
+                        }
+                    }
+                    assignMesh(positions, obj.color, obj.opacity, faces);
+                }
+
+                // Wires
+                // cannot have lines in WebGL that are wider than 1px due to browser limitations so Line2 workaround lib is used
+                // REF: https://threejs.org/examples/?q=fat#webgl_lines_fat - https://jsfiddle.net/brLk6aud/1/
+                // This material is shared by all wires in this object
+                const wirematerial = new LineMaterial( {
+                    color: defaultWireColor,
+                    linewidth: defaultWireLineWidth,
+                    dashed: false, dashSize: 1, gapSize: 1, dashScale: 3
+                } );
+                wirematerial.resolution.set(
+                    canvas.clientWidth * window.devicePixelRatio,
+                    canvas.clientHeight * window.devicePixelRatio);
+
+                const wires = [];
+                for (const w of obj.wires) {
+                    const wiregeometry = new LineGeometry();
+                    wiregeometry.setPositions(w);
+                    const wire = new Line2(wiregeometry, wirematerial);
+                    wire.computeLineDistances();
+                    wire.scale.set(1, 1, 1);
+                    wire.name = wire.uuid;
+                    scene.add(wire);
+                    wires.push(wire.name);
+                }
+                objects.push({
+                    data: obj,
+                    faces: faces,
+                    wires: wires,
+                    wirematerial: wirematerial
+                });
+            }
+
+            // ---- GUI Init ----
+            const gui = new GUI({ width: 300 });
+            const guiparams = {
+                wiretype: 'Normal',
+                wirewidth: defaultWireLineWidth,
+                wirecolor: '#' + defaultWireColor.getHexString(),
+                clippingx: 100,
+                clippingy: 100,
+                clippingz: 100,
+                cameraType: cameraType,
+                navright: function() { navChange([1,  0, 0]); },
+                navtop:   function() { navChange([0,  0, 1]); },
+                navfront: function() { navChange([0, -1, 0]); }
+            };
+
+            // ---- Wires ----
+            const wiretypes = { Normal: 'Normal', Dashed: 'Dashed', None: 'None' };
+
+            const wireFolder = gui.addFolder('Wire');
+            wireFolder.add(guiparams, 'wiretype', wiretypes).name('Wire Display').onChange(wireChange);
+            wireFolder.add(guiparams, 'wirewidth').min(1).max(5).step(1).name('Wire Width').onChange(wireChange);
+            wireFolder.addColor(guiparams, 'wirecolor').name('Wire Color').onChange(wireChange);
+
+            function wireChange() {
+                for (const obj of objects) {
+                    const m = obj.wirematerial;
+                    if (m.dashed) {
+                        if (guiparams.wiretype != 'Dashed') {
+                            m.dashed = false;
+                            delete m.defines.USE_DASH;
+                        }
+                    } else {
+                        if (guiparams.wiretype == 'Dashed') {
+                            m.dashed = true;
+                            // Dashed lines require this as of r122. delete if not dashed
+                            m.defines.USE_DASH = ""; // https://discourse.threejs.org/t/dashed-line2-material/10825
+                        }
+                    }
+                    if (guiparams.wiretype == 'None') {
+                        m.visible = false;
+                    } else {
+                        m.visible = true;
+                    }
+                    m.linewidth = guiparams.wirewidth;
+                    m.color = new THREE.Color(guiparams.wirecolor);
+                    m.needsUpdate = true;
+                }
+                requestRender();
+            }
+            wireChange();
+
+            // ---- Clipping ----
+            const clippingFolder = gui.addFolder('Clipping');
+            clippingFolder.add(guiparams, 'clippingx').min(0).max(100).step(1).name('X-Axis Clipping').onChange(clippingChange);
+            clippingFolder.add(guiparams, 'clippingy').min(0).max(100).step(1).name('Y-Axis Clipping').onChange(clippingChange);
+            clippingFolder.add(guiparams, 'clippingz').min(0).max(100).step(1).name('Z-Axis Clipping').onChange(clippingChange);
+
+            const clipPlaneX = new THREE.Plane(new THREE.Vector3( -1, 0, 0 ), 0);
+            const clipPlaneY = new THREE.Plane(new THREE.Vector3( 0, -1, 0 ), 0);
+            const clipPlaneZ = new THREE.Plane(new THREE.Vector3( 0, 0, -1 ), 0);
+
+            function clippingChange() {
+                if (guiparams.clippingx < 100 || guiparams.clippingy < 100 || guiparams.clippingz < 100) {
+                    if (renderer.clippingPlanes.length == 0) {
+                        renderer.clippingPlanes.push(clipPlaneX, clipPlaneY, clipPlaneZ);
+                    }
+                }
+                clipPlaneX.constant = (globalMaxMin[0].max - globalMaxMin[0].min) * guiparams.clippingx / 100.0 + globalMaxMin[0].min;
+                clipPlaneY.constant = (globalMaxMin[1].max - globalMaxMin[1].min) * guiparams.clippingy / 100.0 + globalMaxMin[1].min;
+                clipPlaneZ.constant = (globalMaxMin[2].max - globalMaxMin[2].min) * guiparams.clippingz / 100.0 + globalMaxMin[2].min;
+                requestRender();
+            }
+
+            // ---- Camera & Navigation ----
+            const camFolder = gui.addFolder('Camera');
+            const cameraTypes = { Perspective: 'Perspective', Orthographic: 'Orthographic' };
+            camFolder.add(guiparams, 'cameraType', cameraTypes).name('Camera type').onChange(cameraChange);
+            camFolder.add(guiparams, 'navright').name('View Right');
+            camFolder.add(guiparams, 'navtop').name('View Top');
+            camFolder.add(guiparams, 'navfront').name('View Front');
+
+            function navChange(v) {
+                const t = new THREE.Vector3();
+                new THREE.Box3().setFromObject(scene).getSize(t);
+                persControls.object.position.set(
+                    v[0] * t.x * 2 + camCenter.x,
+                    v[1] * t.y * 2 + camCenter.y,
+                    v[2] * t.z * 2 + camCenter.z);
+                persControls.target = camCenter;
+                persControls.update();
+                orthControls.object.position.set(
+                    v[0] * t.x + camCenter.x,
+                    v[1] * t.y + camCenter.y,
+                    v[2] * t.z + camCenter.z);
+                orthControls.target = camCenter;
+                orthControls.update();
+                // controls.update() implicitly calls requestRender()
+            }
+
+            function cameraChange(v) {
+                cameraType = v;
+                requestRender();
+            }
+
+            const guiObjects = gui.addFolder('Objects');
+            for (const obj of objects) {
+                // Ignore objects with no vertices
+                if (obj.data.verts.length > 0) {
+                    const guiObjData = {
+                        obj: obj, color: obj.data.color, opacity: obj.data.opacity };
+                    const guiObject = guiObjects.addFolder(obj.data.name);
+                    guiObject.addColor(guiObjData, 'color').name('Color').onChange(GUIObjectChange);
+                    guiObject.add(guiObjData, 'opacity').min(0.0).max(1.0).step(0.05).name('Opacity').onChange(GUIObjectChange);
+                }
+            }
+
+            function GUIObjectChange(v) {
+                for (const f of this.object.obj.faces) {
+                    const m = scene.getObjectByName(f).material;
+                    if (this.property == 'color') {
+                        m.color.setStyle(v);
+                    }
+                    if (this.property == 'opacity') {
+                        m.opacity = v;
+                        m.transparent = (v != 1.0);
+                    }
+                }
+                if (this.property == 'opacity') {
+                    const m = this.object.obj.wirematerial;
+                    m.opacity = v;
+                    m.transparent = (v != 1.0);
+                }
+                requestRender();
+            }
+
+            // Make simple orientation arrows and box - REF: http://jsfiddle.net/b97zd1a3/16/
+            const arrowCanvas = document.querySelector('#arrowCanvas');
+            const arrowRenderer = new THREE.WebGLRenderer({
+                alpha: true,
+                canvas: arrowCanvas
+            }); // clear
+            arrowRenderer.setClearColor(0x000000, 0);
+            arrowRenderer.setSize(arrowCanvas.clientWidth * window.devicePixelRatio,
+                                  arrowCanvas.clientHeight * window.devicePixelRatio,
+                                  false);
+
+            const arrowScene = new THREE.Scene();
+
+            const arrowCamera = new THREE.PerspectiveCamera(
+                50, arrowCanvas.clientWidth / arrowCanvas.clientHeight, 1, 500 );
+            arrowCamera.up = persCamera.up; // important!
+
+            const arrowPos = new THREE.Vector3(0, 0, 0);
+            arrowScene.add(new THREE.ArrowHelper(
+                new THREE.Vector3(1, 0, 0), arrowPos, 60, 0x7F2020, 20, 10));
+            arrowScene.add(new THREE.ArrowHelper(
+                new THREE.Vector3(0, 1, 0), arrowPos, 60, 0x207F20, 20, 10));
+            arrowScene.add(new THREE.ArrowHelper(
+                new THREE.Vector3(0, 0, 1), arrowPos, 60, 0x20207F, 20, 10));
+            arrowScene.add(new THREE.Mesh(
+                new THREE.BoxGeometry(40, 40, 40),
+                new THREE.MeshLambertMaterial(
+                    { color: 0xaaaaaa, flatShading: false })
+            ));
+            arrowScene.add(new THREE.HemisphereLight(0xC7E8FF, 0xFFE3B3, 1.2));
+
+            // Controls
+            const persControls = new OrbitControls(persCamera, renderer.domElement);
+            persControls.target = camCenter; // rotate around center of parts
+            // persControls.enablePan = false;
+            // persControls.enableDamping = true;
+            persControls.update();
+            const orthControls = new OrbitControls(orthCamera, renderer.domElement);
+            orthControls.target = camCenter; // rotate around center of parts
+            // orthControls.enablePan = false;
+            // orthControls.enableDamping = true;
+            orthControls.update();
+
+            function render() {
+                renderRequested = false;
+                persControls.update();
+                if (cameraType == 'Perspective') {
+                    arrowCamera.position.copy(persCamera.position);
+                    arrowCamera.position.sub(persControls.target);
+                }
+                orthControls.update();
+                if (cameraType == 'Orthographic') {
+                    arrowCamera.position.copy(orthCamera.position);
+                    arrowCamera.position.sub(orthControls.target);
+                }
+                arrowCamera.lookAt(arrowScene.position);
+                arrowCamera.position.setLength(200);
+
+                if (cameraType == 'Perspective') {
+                    renderer.render(scene, persCamera);
+                }
+                if (cameraType == 'Orthographic') {
+                    renderer.render(scene, orthCamera);
+                }
+                arrowRenderer.render(arrowScene, arrowCamera);
+            };
+
+            function requestRender() {
+                if (!renderRequested) {
+                    renderRequested = true;
+                    requestAnimationFrame(render);
+                }
+            }
+
+            persControls.addEventListener('change', requestRender);
+            orthControls.addEventListener('change', requestRender);
+            renderer.domElement.addEventListener('mousemove', onMouseMove);
+            window.addEventListener('resize', onMainCanvasResize, false);
+
+            onMainCanvasResize();
+            requestRender();
+
+            function onMainCanvasResize() {
+                const pixelRatio = window.devicePixelRatio;
+                const width = canvas.clientWidth * pixelRatio | 0;
+                const height = canvas.clientHeight * pixelRatio | 0;
+                const needResize = canvas.width !== width || canvas.height !== height;
+                const aspect = canvas.clientWidth / canvas.clientHeight;
+                if (needResize) {
+                    renderer.setSize(width, height, false);
+
+                    // See https://stackoverflow.com/questions/39373113/three-js-resize-window-not-scaling-properly
+                    const change = originalAspect / aspect;
+                    const newSize = viewSize * change;
+                    orthCamera.left = -aspect * newSize / 2;
+                    orthCamera.right = aspect * newSize  / 2;
+                    orthCamera.top = newSize / 2;
+                    orthCamera.bottom = -newSize / 2;
+                    orthCamera.updateProjectionMatrix();
+
+                    persCamera.aspect = canvas.clientWidth / canvas.clientHeight;
+                    persCamera.updateProjectionMatrix();
+                }
+
+                for (const obj of objects) {
+                    obj.wirematerial.resolution.set(width, height);
+                }
+                requestRender();
+            }
+
+            // XXX use mouse click to toggle the gui for the selected object?
+
+            function onMouseMove(e)  {
+                let c = false;
+                if (cameraType == 'Orthographic') {
+                    c = orthCamera;
+                }
+                if (cameraType == 'Perspective') {
+                    c = persCamera;
+                }
+                if (!c) {
+                    return;
+                }
+
+                const raycaster = new THREE.Raycaster();
+                raycaster.setFromCamera(new THREE.Vector2(
+                    (e.clientX / canvas.clientWidth) * 2 - 1,
+                    -(e.clientY / canvas.clientHeight) * 2 + 1),
+                                        c);
+                const intersects = raycaster.intersectObjects(raycasterObj);
+
+                let chosen = '';
+                for (const i of intersects) {
+                    const m = i.object.material;
+                    if (m.opacity > 0) {
+                        if (m.emissive.getHex() == 0x000000) {
+                            m.emissive.setHex( 0x777777 );
+                            m.needsUpdate = true;
+                            requestRender();
+                        }
+                        chosen = i.object.name;
+                        break;
+                    }
+                }
+                for (const r of raycasterObj) {
+                    if (r.name == chosen) {
+                        continue;
+                    }
+                    if (r.material.emissive.getHex() != 0x000000) {
+                        r.material.emissive.setHex(0x000000);
+                        r.material.needsUpdate = true;
+                        requestRender();
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>
